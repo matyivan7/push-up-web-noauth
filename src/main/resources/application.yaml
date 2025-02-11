@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    username: sa
+    url: jdbc:h2:file:./data/pushupnoauthdb
+    driverClassName: org.h2.Driver
+    password: pa
+  h2:
+    console:
+      enabled: 'true'
+  application:
+    name: push-up-web-noauth
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
