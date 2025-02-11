@@ -41,4 +41,20 @@ public class PushUpTrackerController {
 
         return ResponseEntity.ok(pushUpTrackerList);
     }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<List<PushUpTracker>> getAllPushUpTrackerForUser(@PathVariable String username) {
+        log.info("Get all push ups for user endpoint reached");
+
+        List<PushUpTracker> userPushUpTrackers = pushUpTrackerService.getAllPushUpsForUser(username);
+        return ResponseEntity.ok(userPushUpTrackers);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletePushUpTracker(@PathVariable Long id) {
+        log.info("Delete push up tracker endpoint reached");
+
+        pushUpTrackerService.deletePushUpTracker(id);
+        return ResponseEntity.ok().build();
+    }
 }

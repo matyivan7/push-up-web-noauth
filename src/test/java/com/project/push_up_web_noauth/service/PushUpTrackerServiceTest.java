@@ -1,8 +1,7 @@
-package com.project.push_up_web_noauth;
+package com.project.push_up_web_noauth.service;
 
 import com.project.push_up_web_noauth.entity.PushUpTracker;
 import com.project.push_up_web_noauth.repository.PushUpTrackerRepository;
-import com.project.push_up_web_noauth.service.PushUpTrackerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
