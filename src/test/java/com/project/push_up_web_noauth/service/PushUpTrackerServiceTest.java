@@ -1,6 +1,7 @@
 package com.project.push_up_web_noauth.service;
 
 import com.project.push_up_web_noauth.entity.PushUpTracker;
+import com.project.push_up_web_noauth.exception.UsernameNotFoundException;
 import com.project.push_up_web_noauth.repository.PushUpTrackerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -145,17 +146,18 @@ public class PushUpTrackerServiceTest {
         assertEquals(username, result.get(0).getUsername());
         assertEquals(username, result.get(1).getUsername());
 
-        verify(pushUpTrackerRepository, times(1)).findByUsername(username);
+        verify(pushUpTrackerRepository, times(2)).findByUsername(username);
     }
 
     @Test
     void testGetAllPushUpsForUser_userNotFound() {
         when(pushUpTrackerRepository.findByUsername(username)).thenReturn(List.of());
 
-        List<PushUpTracker> result = pushUpTrackerService.getAllPushUpsForUser(username);
+        UsernameNotFoundException thrown = assertThrows(UsernameNotFoundException.class, () -> {
+            pushUpTrackerService.getAllPushUpsForUser(username);
+        });
 
-        assertNotNull(result);
-        assertTrue(result.isEmpty());
+        assertEquals("Invalid username: jane_doe", thrown.getMessage());
 
         verify(pushUpTrackerRepository, times(1)).findByUsername(username);
     }
