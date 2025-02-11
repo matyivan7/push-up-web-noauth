@@ -23,20 +23,40 @@ public class PushUpTrackerService {
     public PushUpTracker createPushUpTracker(PushUpTracker pushUpTracker) {
         log.info("Create push up tracker method is called");
 
-        PushUpTracker pushUpTrackerToSave = PushUpTracker.builder()
-                .username(pushUpTracker.getUsername())
-                .pushUpCount(pushUpTracker.getPushUpCount())
-                .comment(pushUpTracker.getComment())
-                .timeStamp(LocalDateTime.now())
-                .build();
-
-        return pushUpTrackerRepository.save(pushUpTrackerToSave);
+        if (pushUpTracker.getUsername() == null) {
+            throw new NullPointerException("Username is null");
+        } else {
+            PushUpTracker pushUpTrackerToSave = buildPushUpTracker(pushUpTracker);
+            return pushUpTrackerRepository.save(pushUpTrackerToSave);
+        }
     }
 
     public List<PushUpTracker> getAllPushUps() {
         log.info("Get all push ups method is called");
 
         return pushUpTrackerRepository.findAll();
+    }
+
+    public List<PushUpTracker> getAllPushUpsForUser(String username) {
+        log.info("Get all push ups for User method is called");
+
+        return pushUpTrackerRepository.findByUsername(username);
+    }
+
+    public void deletePushUpTracker(Long id) {
+        log.info("Delete push up tracker method is called");
+
+        pushUpTrackerRepository.deleteById(id);
+    }
+
+    private static PushUpTracker buildPushUpTracker(PushUpTracker pushUpTracker) {
+        PushUpTracker pushUpTrackerToSave = PushUpTracker.builder()
+                .username(pushUpTracker.getUsername())
+                .pushUpCount(pushUpTracker.getPushUpCount())
+                .comment(pushUpTracker.getComment())
+                .timeStamp(LocalDateTime.now())
+                .build();
+        return pushUpTrackerToSave;
     }
 }
 
