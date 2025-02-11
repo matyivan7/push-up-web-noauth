@@ -5,10 +5,9 @@ import com.project.push_up_web_noauth.service.PushUpTrackerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -32,5 +31,14 @@ public class PushUpTrackerController {
         PushUpTracker pushUpTrackerSaved = pushUpTrackerService.createPushUpTracker(pushUpTracker);
         return ResponseEntity.ok(pushUpTrackerSaved);
         }
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PushUpTracker>> getAllPushUps() {
+        log.info("Get all push ups endpoint reached");
+
+        List<PushUpTracker> pushUpTrackerList = pushUpTrackerService.getAllPushUps();
+
+        return ResponseEntity.ok(pushUpTrackerList);
     }
 }

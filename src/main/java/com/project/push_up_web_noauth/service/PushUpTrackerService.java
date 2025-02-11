@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -30,6 +31,12 @@ public class PushUpTrackerService {
                 .build();
 
         return pushUpTrackerRepository.save(pushUpTrackerToSave);
+    }
+
+    public List<PushUpTracker> getAllPushUps() {
+        log.info("Get all push ups method is called");
+
+        return pushUpTrackerRepository.findAll();
     }
 }
 
