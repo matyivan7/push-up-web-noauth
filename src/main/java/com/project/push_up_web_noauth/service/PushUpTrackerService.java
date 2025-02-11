@@ -21,15 +21,11 @@ public class PushUpTrackerService {
         this.pushUpTrackerRepository = pushUpTrackerRepository;
     }
 
-    public PushUpTracker createPushUpTracker(PushUpTracker pushUpTracker) {
+    public PushUpTracker createPushUpTracker(String comment, Integer pushUpCount, String username) {
         log.info("Create push up tracker method is called");
 
-        if (pushUpTracker.getUsername().isEmpty()) {
-            throw new NullPointerException("Username is empty");
-        } else {
-            PushUpTracker pushUpTrackerToSave = buildPushUpTracker(pushUpTracker);
-            return pushUpTrackerRepository.save(pushUpTrackerToSave);
-        }
+        PushUpTracker pushUpTrackerToSave = buildPushUpTracker(comment, pushUpCount, username);
+        return pushUpTrackerRepository.save(pushUpTrackerToSave);
     }
 
     public List<PushUpTracker> getAllPushUps() {
@@ -44,7 +40,7 @@ public class PushUpTrackerService {
         if (username.isEmpty() || pushUpTrackerRepository.findByUsername(username.toLowerCase()).isEmpty()) {
             throw new UsernameNotFoundException("Invalid username: " + username);
         } else {
-        return pushUpTrackerRepository.findByUsername(username.toLowerCase());
+            return pushUpTrackerRepository.findByUsername(username.toLowerCase());
         }
     }
 
@@ -54,11 +50,11 @@ public class PushUpTrackerService {
         pushUpTrackerRepository.deleteById(id);
     }
 
-    private static PushUpTracker buildPushUpTracker(PushUpTracker pushUpTracker) {
+    private static PushUpTracker buildPushUpTracker(String comment, Integer pushUpCount, String username) {
         PushUpTracker pushUpTrackerToSave = PushUpTracker.builder()
-                .username(pushUpTracker.getUsername().toLowerCase())
-                .pushUpCount(pushUpTracker.getPushUpCount())
-                .comment(pushUpTracker.getComment())
+                .username(username.toLowerCase())
+                .pushUpCount(pushUpCount)
+                .comment(comment)
                 .timeStamp(LocalDateTime.now())
                 .build();
         return pushUpTrackerToSave;

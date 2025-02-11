@@ -22,13 +22,13 @@ public class PushUpTrackerController {
     }
 
     @PostMapping("/new-push-up")
-    public ResponseEntity<PushUpTracker> createPushUpTracker(@RequestBody PushUpTracker pushUpTracker) {
+    public ResponseEntity<PushUpTracker> createPushUpTracker(@RequestBody String comment, @RequestBody Integer pushUpCount, @RequestBody String username) {
         log.info("Create push up tracker endpoint reached");
 
-        if (pushUpTracker == null) {
-            throw new NullPointerException("pushUpTracker parameter is null");
+        if (username.isEmpty() || pushUpCount == null) {
+            throw new NullPointerException("Username or push up count parameter is null");
         } else {
-        PushUpTracker pushUpTrackerSaved = pushUpTrackerService.createPushUpTracker(pushUpTracker);
+        PushUpTracker pushUpTrackerSaved = pushUpTrackerService.createPushUpTracker(comment, pushUpCount, username);
         return ResponseEntity.ok(pushUpTrackerSaved);
         }
     }

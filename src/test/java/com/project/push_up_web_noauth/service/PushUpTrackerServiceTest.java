@@ -78,7 +78,7 @@ public class PushUpTrackerServiceTest {
                         p.getComment().equals(pushUpTracker.getComment()))))
                 .thenReturn(pushUpTrackerToSave);
 
-        PushUpTracker createdTracker = pushUpTrackerService.createPushUpTracker(pushUpTracker);
+        PushUpTracker createdTracker = pushUpTrackerService.createPushUpTracker(pushUpTracker.getComment(), pushUpTracker.getPushUpCount(), pushUpTracker.getUsername());
 
         assertNotNull(createdTracker);
         assertEquals("john_doe", createdTracker.getUsername());
@@ -93,7 +93,7 @@ public class PushUpTrackerServiceTest {
         PushUpTracker nullPushUpTracker = null;
 
         assertThrows(NullPointerException.class, () -> {
-            pushUpTrackerService.createPushUpTracker(nullPushUpTracker);
+            pushUpTrackerService.createPushUpTracker(nullPushUpTracker.getComment(), nullPushUpTracker.getPushUpCount(), nullPushUpTracker.getUsername());
         });
 
         verify(pushUpTrackerRepository, times(0)).save(any(PushUpTracker.class));
@@ -108,7 +108,7 @@ public class PushUpTrackerServiceTest {
                 .build();
 
         assertThrows(NullPointerException.class, () -> {
-            pushUpTrackerService.createPushUpTracker(pushUpTrackerWithNullUsername);
+            pushUpTrackerService.createPushUpTracker(pushUpTrackerWithNullUsername.getComment(), pushUpTrackerWithNullUsername.getPushUpCount(), pushUpTrackerWithNullUsername.getUsername());
         });
 
         verify(pushUpTrackerRepository, times(0)).save(any(PushUpTracker.class));
